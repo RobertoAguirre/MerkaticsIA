@@ -1,8 +1,18 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-// Configurar Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+// Configurar Gemini AI con manejo de errores
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+
+// Usar el modelo más reciente y optimizado
+const model = genAI.getGenerativeModel({ 
+  model: 'gemini-2.5-flash',
+  generationConfig: {
+    temperature: 0.7,
+    topK: 40,
+    topP: 0.95,
+    maxOutputTokens: 2048,
+  }
+});
 
 // Metodología de 17 pasos de Sabri Suby
 const PASOS_17 = {
@@ -54,14 +64,22 @@ RESULTADO ESPERADO: ${tipoContenido}
   `;
 };
 
-// Función principal para generar contenido
+// Función principal para generar contenido con mejor manejo de errores
 const generateContent = async (formData, embudo, step, tipoContenido) => {
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error('GEMINI_API_KEY no está configurada');
+    }
+
     const prompt = generatePrompt(formData, embudo, step, tipoContenido);
     
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
+    
+    if (!text) {
+      throw new Error('No se pudo generar contenido');
+    }
     
     return {
       success: true,
@@ -74,7 +92,7 @@ const generateContent = async (formData, embudo, step, tipoContenido) => {
     console.error('Error generando contenido con Gemini:', error);
     return {
       success: false,
-      error: error.message
+      error: error.message || 'Error desconocido al generar contenido'
     };
   }
 };
