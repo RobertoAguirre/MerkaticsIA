@@ -31,7 +31,7 @@ body {
 
 .hero-section h1 {
     color: white !important;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Feature Icons */
@@ -146,6 +146,7 @@ section {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -161,11 +162,11 @@ section {
     .hero-section {
         padding: 60px 0;
     }
-    
+
     .hero-section h1 {
         font-size: 2.5rem;
     }
-    
+
     .step-number {
         width: 50px;
         height: 50px;
@@ -262,14 +263,23 @@ html {
     animation: typing 1.4s infinite ease-in-out;
 }
 
-.typing-dot:nth-child(1) { animation-delay: -0.32s; }
-.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.typing-dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
 
 @keyframes typing {
-    0%, 80%, 100% {
+
+    0%,
+    80%,
+    100% {
         transform: scale(0.8);
         opacity: 0.5;
     }
+
     40% {
         transform: scale(1);
         opacity: 1;
@@ -278,19 +288,38 @@ html {
 
 /* Cambios para eliminar azul y usar negro/gris */
 
-.text-primary, .feature-icon i, .chat-header h3, .card-title.text-primary, .display-4.text-primary, .display-5.text-primary, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link:focus {
-    color: var(--text-dark) !important;
+.text-primary,
+.feature-icon i,
+.chat-header h3,
+.card-title.text-primary,
+.display-4.text-primary,
+.display-5.text-primary,
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: var(--light-color) !important;
 }
 
-.card-title, .chat-header h3, .display-4, .display-5 {
-    color: var(--text-dark) !important;
+.card-title,
+.chat-header h3,
+.display-4,
+.display-5 {
+    color: var(--light-color) !important;
 }
 
-.lead, .card-text, .chat-header p, .chat-header small, .chat-header .progress-bar, .chat-header .progress-fill, .step-number, .feature-icon {
+.lead,
+.card-text,
+.chat-header p,
+.chat-header small,
+.chat-header .progress-bar,
+.chat-header .progress-fill,
+.step-number,
+.feature-icon {
     color: var(--text-secondary) !important;
 }
 
-a, a:visited, a:active {
+a,
+a:visited,
+a:active {
     color: var(--primary-color);
 }
 
@@ -304,7 +333,9 @@ a:hover {
 }
 
 /* Quitar azul de los iconos info y proceso */
-.card-title.text-primary i, .fa-info-circle, .fa-clock {
+.card-title.text-primary i,
+.fa-info-circle,
+.fa-clock {
     color: var(--primary-color) !important;
 }
 
@@ -319,4 +350,4 @@ a:hover {
     font-size: 1.7rem !important;
     line-height: 1 !important;
     display: inline-block;
-} 
+}
