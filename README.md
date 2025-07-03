@@ -31,6 +31,8 @@ src/
 
 ## 🚀 Instalación
 
+### Desarrollo Local
+
 1. **Clonar el repositorio**
 ```bash
 git clone <repo-url>
@@ -59,6 +61,33 @@ cp env.example .env
 - Crea una nueva API key
 - Agrega la key a tu archivo .env
 
+### Despliegue en Vercel
+
+1. **Conectar repositorio a Vercel**
+```bash
+# Instalar Vercel CLI
+npm i -g vercel
+
+# Desplegar
+vercel
+```
+
+2. **Configurar variables de entorno en Vercel**
+- `GEMINI_API_KEY`: Tu API key de Gemini
+- `MONGODB_URI`: URL de tu base de datos MongoDB (opcional)
+
+### Despliegue en Render
+
+1. **Conectar repositorio a Render**
+- Ve a [Render Dashboard](https://dashboard.render.com)
+- Crea un nuevo Web Service
+- Conecta tu repositorio de GitHub
+
+2. **Configurar variables de entorno en Render**
+- `GEMINI_API_KEY`: Tu API key de Gemini
+- `MONGODB_URI`: URL de tu base de datos MongoDB (opcional)
+- `NODE_ENV`: production
+
 ## 🎯 Uso
 
 ### Iniciar el servidor
@@ -69,6 +98,11 @@ npm run dev
 # Producción
 npm start
 ```
+
+### Acceder al frontend
+- **Página principal**: http://localhost:3000
+- **Chat Wizard**: http://localhost:3000/chat
+- **API Info**: http://localhost:3000/api
 
 ### Endpoints principales
 
@@ -94,13 +128,33 @@ npm start
 - `GET /api/crm/pipeline` - Vista del pipeline
 - `GET /api/crm/reports` - Reportes
 
+## 🌐 Frontend
+
+El proyecto incluye un frontend completo con:
+
+- **Página principal atractiva** con información del producto
+- **Chat Wizard interactivo** para guía paso a paso
+- **Diseño responsive** usando Bootstrap 5
+- **Animaciones suaves** y UX optimizada
+- **Integración completa** con la API backend
+
+### Características del Frontend
+
+- ✅ **Chat Wizard paso a paso** con progreso visual
+- ✅ **Interfaz moderna** con Bootstrap y Font Awesome
+- ✅ **Responsive design** para móviles y desktop
+- ✅ **Animaciones CSS** para mejor UX
+- ✅ **Integración con API** para generación de contenido
+- ✅ **Manejo de errores** y estados de carga
+- ✅ **Formateo automático** de mensajes del bot
+
 ## 📊 Flujo de trabajo
 
-1. **Usuario llena formulario inicial** → API clasifica y crea contacto
-2. **Sistema consulta Gemini AI** → Genera contenido usando 17 pasos
-3. **Se programa secuencia de emails** → Según embudo asignado
-4. **Emails se envían automáticamente** → Con tracking básico
-5. **CRM se actualiza** → Estados cambian según interacciones
+1. **Usuario accede al chat wizard** → Interfaz atractiva y guía clara
+2. **Responde preguntas paso a paso** → Sistema recolecta información
+3. **IA genera recomendaciones** → Usando metodología de 17 pasos
+4. **Se genera contenido personalizado** → Copy, landing pages, emails
+5. **Usuario implementa estrategias** → Con guía completa del wizard
 
 ## 🤖 Metodología de 17 Pasos
 
