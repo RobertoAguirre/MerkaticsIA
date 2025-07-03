@@ -14,18 +14,6 @@
     {
       "src": "/chat(?:/)?$",
       "dest": "src/index.js"
-    },
-    {
-      "src": "/(css|js|images|fonts)/(.*)",
-      "dest": "/public/$1/$2"
-    },
-    {
-      "src": "/",
-      "dest": "src/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
     }
   ],
   "env": {
