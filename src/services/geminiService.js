@@ -10,7 +10,7 @@ const model = genAI.getGenerativeModel({
     temperature: 0.7,
     topK: 40,
     topP: 0.95,
-    maxOutputTokens: 2048,
+    maxOutputTokens: 4096,
   }
 });
 
@@ -37,31 +37,36 @@ const PASOS_17 = {
 
 // Generar prompt base según el paso y embudo
 const generatePrompt = (formData, embudo, step, tipoContenido) => {
-  const pasoActual = PASOS_17[step];
-  
+  // Contexto de marketing y datos del producto
+  const datos = `
+Producto/servicio: ${formData.businessName || 'No especificado'}
+Industria: ${formData.industry || 'No especificado'}
+Presupuesto: ${formData.budget || 'No especificado'}
+Desafíos: ${formData.challenges ? formData.challenges.join(', ') : 'No especificados'}
+`;
+
+  // Prompt: aplica los 17 pasos como receta interna, pero NO los menciones ni expliques
   return `
-Eres un experto en marketing directo siguiendo la metodología de Sabri Suby de 17 pasos.
+Eres un copywriter profesional experto en marketing directo. Aplica internamente la metodología de los 17 pasos de Sabri Suby (sin mencionarla ni citar pasos) para crear un copy final, persuasivo y profesional para una landing page.
 
-DATOS DEL CLIENTE:
-- Nombre: ${formData.name || 'No especificado'}
-- Negocio: ${formData.businessName || 'No especificado'}
-- Industria: ${formData.industry || 'No especificado'}
-- Presupuesto: ${formData.budget || 'No especificado'}
-- Desafíos: ${formData.challenges ? formData.challenges.join(', ') : 'No especificados'}
+Tipo de contenido a generar: ${tipoContenido}
 
-EMBUDO: ${embudo}
-PASO ACTUAL: ${step}/17 - ${pasoActual}
-TIPO DE CONTENIDO: ${tipoContenido}
+Datos del cliente:
+${datos}
 
-INSTRUCCIONES:
-1. Aplica específicamente el paso ${step} de la metodología
-2. Personaliza para el tipo de negocio indicado
-3. Mantén un tono profesional pero cercano
-4. Incluye datos específicos del formulario
-5. Genera contenido listo para usar
-
-RESULTADO ESPERADO: ${tipoContenido}
-  `;
+Requisitos:
+- El texto debe ser claro, directo, estructurado y orientado a la conversión.
+- No expliques la metodología ni menciones pasos, solo entrega el resultado final listo para usar.
+- Usa un tono profesional, confiable y atractivo.
+- Personaliza el mensaje según los datos del producto y los desafíos del cliente.
+- Si es una lista de beneficios, usa bullets claros y concretos.
+- Si es un headline, que sea impactante y breve.
+- Si es una oferta, que sea irresistible y fácil de entender.
+- Si es una sección de la landing, estructura el texto como lo haría un copywriter profesional.
+${step < 17 ? '- No invites a reservar sesiones, asesorías ni menciones llamadas a la acción de agendar hasta el paso 17.' : '- En este paso (17), puedes invitar a una sesión estratégica gratuita como cierre.'}
+- Termina siempre tu respuesta con una pregunta clara y directa para que el usuario pueda avanzar al siguiente paso.
+Devuelve solo el texto final, sin explicaciones ni referencias internas ni a la metodología.
+`;
 };
 
 // Función principal para generar contenido con mejor manejo de errores
@@ -235,16 +240,25 @@ const generateLandingPage = async (formData, embudo) => {
   }
 };
 
-// Nueva función: Generar solo el copy completo para la landing page (MVP robusto)
+// Nueva función: Generar solo el copy completo para la landing page (nuevo estándar robusto)
 const generateFullCopy = async (formData, embudo) => {
   try {
-    // Solo 5 secciones clave para el MVP
+    // Generar todas las secciones clave para una landing robusta
     const sections = [
       { key: 'headline', step: 1, tipo: 'Headline principal para landing page' },
       { key: 'subheadline', step: 2, tipo: 'Subheadline persuasivo para landing page' },
+      { key: 'opening_paragraph', step: 3, tipo: 'Párrafo de apertura que conecte con el dolor del cliente' },
       { key: 'benefits', step: 8, tipo: 'Lista de 5-6 beneficios clave en bullets' },
+      { key: 'problem_solution', step: 5, tipo: 'Sección problema-solución' },
+      { key: 'features', step: 6, tipo: 'Lista de características técnicas principales' },
+      { key: 'applications', step: 8, tipo: 'Lista de aplicaciones o usos recomendados' },
+      { key: 'testimonials', step: 9, tipo: '2 testimonios de clientes simulados' },
       { key: 'offer', step: 10, tipo: 'Oferta irresistible y bonos' },
-      { key: 'cta', step: 16, tipo: 'Llamada a la acción clara y directa' }
+      { key: 'cta', step: 16, tipo: 'Llamada a la acción clara y directa' },
+      { key: 'faq', step: 13, tipo: '3-5 preguntas frecuentes con respuesta breve' },
+      { key: 'urgency', step: 14, tipo: 'Sección de urgencia y escasez' },
+      { key: 'guarantee', step: 15, tipo: 'Sección de garantías y confianza' },
+      { key: 'seo', step: 1, tipo: 'Título SEO, meta descripción y palabras clave para la landing' }
     ];
 
     const copy = {};
@@ -257,8 +271,8 @@ const generateFullCopy = async (formData, embudo) => {
         copy[section.key] = '';
         errores.push(section.key);
       }
-      // Delay mayor para evitar saturar la API
-      await new Promise(r => setTimeout(r, 700));
+      // Delay para evitar saturar la API
+      await new Promise(r => setTimeout(r, 400));
     }
     return { success: true, copy, errores };
   } catch (error) {
