@@ -127,7 +127,7 @@ class ChatWizard {
             messageDiv.innerHTML = `
                 <div class="d-flex align-items-start">
                     <div class="me-3">
-                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <div class="bot-avatar rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                             <i class="fas fa-robot"></i>
                         </div>
                     </div>
